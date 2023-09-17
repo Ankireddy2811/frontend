@@ -1,0 +1,89 @@
+.home-container{
+    min-height: 100vh;
+    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FF512F, #DD2476);
+
+    padding: 30px
+
+}
+
+.heading-button{
+width: 100%;
+display: flex;
+align-items: center;
+justify-content:center;
+
+
+
+}
+
+.create-button{
+    visibility: visible;
+    animation-delay: 0.8s;
+    animation-name: fadeIn;
+    background: linear-gradient(135deg,#3F74A3,#0000AA 32%,#4D4DFF);
+    box-shadow: 0 10px 15px 0px rgba(175, 0, 87, .2);
+    height: 30px;
+    width: 120px;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    margin-left: 90px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    
+}
+.edit-button.saved {
+    background-color:#FF9800; 
+  }
+.unordered-container{
+    width: 100%;
+    list-style: none;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+
+.first-main-heading{
+ font-family: "Roboto";
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff; 
+  text-align: center;
+  
+}
+
+.plus-icon{
+    font-size: 20px;
+    
+}
+
+@media (max-width:768px){
+    .unordered-container{
+     flex-direction: column;
+     padding-left: 0px;
+     padding: 0px;
+    }
+    .first-main-heading{
+        font-size: 17px;
+    }
+    .create-button{
+        margin-left: 30px;
+    }
+    
+   }

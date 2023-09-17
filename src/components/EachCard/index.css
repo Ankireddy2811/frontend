@@ -1,0 +1,136 @@
+.each-item{
+    width: 200px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+   
+    margin: 15px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    text-align: center;
+    border: none;
+    background-attachment: fixed;
+}
+@media (max-width:768px){
+  .each-item{
+   width: 80%;
+  
+  }
+  
+ }
+.each-image{
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.edit-button{
+  width: 100px;
+  height: 30px;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  outline: none;
+  margin-top: 10px;
+   
+}
+.user-name {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .user-email {
+    font-size: 16px;
+    color: #777;
+  }
+  
+.trigger-button {
+  width: 100px;
+  height: 30px;
+  background-color: #7c69e9;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  outline: none;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Roboto';
+  margin: 10px;
+    
+   
+   }
+   .save-button{
+    
+        width: 100px;
+        height: 30px;
+        background-color: #4caf50;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: #ffffff;
+        outline: none;
+        margin-top: 10px;
+        transition: background-color 0.3s;
+        font-size: 16px;
+  font-weight: 400;
+  font-family: 'Roboto';
+      
+   }
+   .save-button.saved {
+    background-color:#FF9800; 
+  }
+   .input-ele{
+    width: 70%;
+    height: 30px;
+    margin-top: 5px;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+   }
+   .form-container{
+    background-color:#ffffff;
+    border-radius: 10px;
+    padding: 15px;
+   }
+
+   .delete-button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    margin-top: 10px;
+   }
+
+   .delete-icon{
+    font-size: 25px;
+    color: #e53935;
+   }
+
+   .edit-delete{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+   }
+
+   @media (max-width:768px){
+    .each-item{
+     width: 80%;
+    
+    }
+    .input-ele{
+      width: 90%;
+    }
+    
+   }
+
+
+   
