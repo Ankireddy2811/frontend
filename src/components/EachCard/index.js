@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import {MdDelete} from "react-icons/md"
+
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Popup from "reactjs-popup";
 import 'reactjs-popup/dist/index.css';
 import "./index.css";
@@ -10,43 +11,54 @@ class EachCard extends Component {
     this.state = {
       formData: {
         id:props.eachUser.id,
-        name: props.eachUser.name,
+        firstName: props.eachUser.firstName,
+        lastName: props.eachUser.lastName,
         email: props.eachUser.email,
-        imageurl:props.eachUser.imageurl
+        age:props.eachUser.age,
+        classId:props.eachUser.classId
       },
       isSaveClicked:false
     };
   }
 
-  changeImageUrl = (event) => {
-    const newImageUrl = event.target.value;
+  
+  changeFirstName = (event) => {
+   
     this.setState((prevState) => ({
       formData: {
         ...prevState.formData,
-        imageurl:newImageUrl
+        firstName: event.target.value
       }
     }));
   }
 
-  changeName = (event) => {
-    const newName = event.target.value;
+  changeLastName = (event) => {
+   
     this.setState((prevState) => ({
       formData: {
         ...prevState.formData,
-        name: newName
+        lastName: event.target.value
       }
     }));
   }
 
   changeEmail = (event) => {
-    const newEmail = event.target.value;
-    this.setState((prevState) => ({
+     this.setState((prevState) => ({
       formData: {
         ...prevState.formData,
-        email: newEmail
+        email: event.target.value
       }
     }));
   }
+
+  changeAge = (event) => {
+    this.setState((prevState) => ({
+     formData: {
+       ...prevState.formData,
+       age: event.target.value
+     }
+   }));
+ }
 
   submitForm = (event) => {
     event.preventDefault();
@@ -68,77 +80,120 @@ class EachCard extends Component {
     const { formData,isSaveClicked } = this.state;
     const saveText = isSaveClicked ? "saved":"save"
     const { eachUser } = this.props;
-    const { name, email, imageurl } = eachUser;
+    const { firstName,lastName, email, age,classId} = eachUser;
     
     return (
-      <li className="each-item">
-        <img src={imageurl} alt={name} className="each-image" />
-        <h2 className="user-name">{name}</h2>
-        <p className="user-email">{email}</p>
-        <div className="edit-delete">
+     <li className="table-row">
+      <div className="table-cell name-column">
+        {firstName}
+      </div>
+      <hr className="separator" />
+      <div className="table-cell name-column">
+        <p>{lastName}</p>
+      </div>
+      <hr className="separator" />
+      <div className="table-cell name-column">
+        <p>{classId}</p>
+      </div>
+      <hr className="separator" />
+      <div className="table-cell name-column">
+        <p>{email}</p>
+      </div>
+      <hr className="separator" />
+      <div className="table-cell name-column">
+        <p>{age}</p>
+      </div>
+      <hr className="separator" />
+
+     
+      <div className="table-cell mobile-no-column">
+      <div className="edit-delete">
 
         
-        <Popup
-          modal
-          contentStyle={{
-            borderRadius: "10px",
-            height: "auto",
-            maxWidth: "400px", 
-            backgroundColor: "#ffffff", 
-            padding: "20px", 
-          }}
-          overlayStyle={{
-            backgroundColor: "rgba(0, 0, 0, 0.6)", 
-          }}
-          trigger={
-            <button type="button" className="edit-button">
-              Edit
-            </button>
-          }
-        >
-          {close => 
-          (
-            <form className="form-container" onSubmit={this.submitForm}>
-              <input
-                className="input-ele"
-                onChange={this.changeImageUrl}
-                value={formData.imageurl}
-                type="text"
-              /><br/>
-              <input
-                className="input-ele"
-                onChange={this.changeName}
-                value={formData.name}
-                type="text"
-              /><br/>
-              <input
-                className="input-ele"
-                onChange={this.changeEmail}
-                value={formData.email}
-                type="text"
-              /><br/>
-              <div className="buttons-container">
-                <button type="submit" className={`save-button ${isSaveClicked ? 'saved' : ''}`}>{saveText}</button>
-                <button
-                  type="button"
-                  className="trigger-button"
-                  onClick={() => {
-                    close();
-                    this.onCloseButton(); 
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-            </form>
-          )}
-        </Popup>
+<Popup
+    modal
+    contentStyle={{
+      borderRadius: "10px",
+      height: "auto",
+      maxWidth: "400px", 
+      backgroundColor: "#ffffff", 
+      padding: "20px", 
+    }}
+    overlayStyle={{
+      backgroundColor: "rgba(0, 0, 0, 0.6)", 
+    }}
+    trigger={
+      
+      <button type="button" className="action-button">
+       <FaEdit
+            style={{ color: "purple" }}
+            className="cursor-pointer mx-2"
+            
+        />
+      </button>
+    }
+  >
+    {close => 
+    (
+      <form className="form-container" onSubmit={this.submitForm}>
         
-       <button type="button" className="delete-button" onClick={this.onDeleteButton}>
-        <MdDelete className="delete-icon"/>
-       </button>
-       </div>
-      </li>
+        <input
+          className="input-ele"
+          onChange={this.changeFirstName}
+          value={formData.firstName}
+          type="text"
+        /><br/>
+        <input
+          className="input-ele"
+          onChange={this.changeLastName}
+          value={formData.lastName}
+          type="text"
+        /><br/>
+        <input
+          className="input-ele"
+          onChange={this.changeAge}
+          value={formData.age}
+          type="text"
+        /><br/>
+        <input
+          className="input-ele"
+          onChange={this.changeEmail}
+          value={formData.email}
+          type="text"
+        /><br/>
+        <div className="buttons-container">
+          <button type="submit" className={`save-button ${isSaveClicked ? 'saved' : ''}`}>{saveText}</button>
+          <button
+            type="button"
+            className="trigger-button"
+            onClick={() => {
+              close();
+              this.onCloseButton(); 
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </form>
+    )}
+  </Popup>
+  
+<button type="button" className="delete-button" onClick={this.onDeleteButton}>
+     <FaTrashAlt
+           
+            className="delete-icon"
+            
+          />
+ 
+</button>
+</div>
+        
+      </div>
+    </li>
+      
+       
+      
+   
     );
   }
   

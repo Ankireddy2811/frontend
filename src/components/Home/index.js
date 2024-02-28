@@ -1,5 +1,6 @@
 import {Component} from "react"
 
+
 import {IoMdAdd} from "react-icons/io"
 
 import Popup from "reactjs-popup";
@@ -12,21 +13,62 @@ import "./index.css"
 
 class Home extends Component{
 
-state = {usersData:[],isSaveClicked:false,addDataForm:{
-  name:"",
-  email:"",
-  imageurl:""
-}}
+ state = {studentsData:[],isSaveClicked:false,
+         addDataForm:{
+                firstName:"",
+                lastName:"",
+                email:"",
+                age:"",
+                classId:""
+        }
+      }
 
  componentDidMount(){
-   this.getApiData()
+    this.getStudentsData();
+    // this.getClassData();
+
  }
 
- getApiData = async()=>{
-  const response = await fetch("https://user-details-92wo.onrender.com/")
+
+ getStudentsData = async()=>{
+  const response = await fetch("http://localhost:3011/students")
   const data = await response.json()
-  this.setState({usersData:data})
+  console.log(data);
+  const updatedStudentsData = data.map(eachItem=>({
+    firstName:eachItem.first_name,
+    lastName:eachItem.last_name,
+    age:eachItem.age,
+    email:eachItem.email,
+    id:eachItem.student_id,
+    classId:eachItem.class_id
+  }))
+  this.setState({studentsData:updatedStudentsData})
  }
+
+ 
+//  getClassData = async () => {
+//   const { studentsData } = this.state;
+//   const response = await fetch("http://localhost:3011/classes");
+//   const classesData = await response.json();
+//   console.log(classesData)
+//   const updatedStudentsData = studentsData.map(student => {
+//   const matchingClass = classesData.find(cls => cls.class_id === student.classId);
+//   console.log(matchingClass)
+    
+//     if (matchingClass) {
+//       return {
+//         ...student,
+//         className: matchingClass.class_name
+//       };
+//     } else {
+//       return student;
+//     }
+//   });
+
+  
+//   this.setState({ studentsData: updatedStudentsData });
+// };
+
 
  getUpdatedData = async(dataValues)=>{
   const options = {
@@ -34,37 +76,53 @@ state = {usersData:[],isSaveClicked:false,addDataForm:{
     headers: {
       "Content-Type": "application/json", 
     },
-    body:JSON.stringify(dataValues)
+    body:JSON.stringify({
+      first_name:dataValues.firstName,
+      last_name:dataValues.lastName,
+      email:dataValues.email,
+      age:dataValues.age,
+      class_id:dataValues.classId
+    })
   }
+    
+  console.log(dataValues)
   
-  const response = await fetch(`https://user-details-92wo.onrender.com/users/${dataValues.id}`,options)
+  const response = await fetch(`http://localhost:3011/students/update/${dataValues.id}`,options)
   console.log(response)
-  this.getApiData()
+  this.getStudentsData()
  }
 
  getDeleteData = async(id)=>{
-  
-
   const options = {
     method:"DELETE",
    
   }
-  const response = await fetch(`https://user-details-92wo.onrender.com/users/${id}`,options)
+  const response = await fetch(`http://localhost:3011/students/delete/${id}`,options)
   console.log(response)
-  this.getApiData()
+  this.getStudentsData()
   
  }
 
- addImageUrl = (event)=>{
-  this.setState(prevState=>({addDataForm: {...prevState.addDataForm,imageurl:event.target.value}}))
+
+ addFirstName = (event)=>{
+  this.setState(prevState=>({addDataForm: {...prevState.addDataForm,firstName:event.target.value}}))
  }
 
- addName = (event)=>{
-  this.setState(prevState=>({addDataForm: {...prevState.addDataForm,name:event.target.value}}))
+ addLastName = (event)=>{
+  this.setState(prevState=>({addDataForm: {...prevState.addDataForm,lastName:event.target.value}}))
  }
+
 
  addEmail = (event)=>{
   this.setState(prevState=>({addDataForm: {...prevState.addDataForm,email:event.target.value}}))
+ }
+
+ addAge = (event)=>{
+  this.setState(prevState=>({addDataForm: {...prevState.addDataForm,age:event.target.value}}))
+ }
+
+ addClassId = (event)=>{
+  this.setState(prevState=>({addDataForm: {...prevState.addDataForm,classId:event.target.value}}))
  }
 
  onAddSubmitForm = async(event)=>{
@@ -75,13 +133,23 @@ state = {usersData:[],isSaveClicked:false,addDataForm:{
     headers: {
       "Content-Type": "application/json", 
     },
-    body:JSON.stringify(addDataForm)
+    body:JSON.stringify({
+       first_name:addDataForm.firstName,
+       last_name:addDataForm.lastName,
+       email:addDataForm.email,
+       age:addDataForm.age,
+       class_id:addDataForm.classId
+
+    })
   }
   
-  const response = await fetch(`https://user-details-92wo.onrender.com/users`,options)
-  console.log(response)
-  this.getApiData()
-  this.setState(prevState=>({isSaveClicked:!prevState.isSaveClicked}))
+    const response = await fetch(`http://localhost:3011/students/create`,options)
+
+    console.log(response)
+    const data = await response.json()
+    console.log(data)
+    this.getStudentsData();
+    this.setState(prevState=>({isSaveClicked:!prevState.isSaveClicked}))
 
  }
 
@@ -91,13 +159,13 @@ state = {usersData:[],isSaveClicked:false,addDataForm:{
   
 
  render(){
-  const {usersData,isSaveClicked} = this.state
+  const {studentsData,isSaveClicked} = this.state
   const saveText = isSaveClicked ? "saved":"save"
 
   return(
     <div className="home-container">
      <div className="heading-button">
-     <h1 className="first-main-heading">User Information Management</h1>
+     <h1 className="first-main-heading">Students & Class Information Management</h1>
      <Popup
           modal
           contentStyle={{
@@ -117,19 +185,31 @@ state = {usersData:[],isSaveClicked:false,addDataForm:{
             <form className="form-container" onSubmit={this.onAddSubmitForm}>
               <input
                 className="input-ele"
-                onChange={this.addImageUrl}
-                placeholder="Enter Image Url"
+                onChange={this.addFirstName}
+                placeholder="Enter first Name"
             
               /><br/>
-              <input
+               <input
                 className="input-ele"
-                onChange={this.addName}
-                placeholder="Enter Name"
+                onChange={this.addLastName}
+                placeholder="Enter last Name"
+            
               /><br/>
+             
               <input
                 className="input-ele"
                 onChange={this.addEmail}
                 placeholder="Enter Email"
+              /><br/>
+               <input
+                className="input-ele"
+                onChange={this.addAge}
+                placeholder="Enter age"
+              /><br/>
+               <input
+                className="input-ele"
+                onChange={this.addClassId}
+                placeholder="Enter class id"
               /><br/>
               <div className="buttons-container">
                 <button type="submit" className={`edit-button ${isSaveClicked ? 'saved' : ''}`}>{saveText}</button>
@@ -147,13 +227,37 @@ state = {usersData:[],isSaveClicked:false,addDataForm:{
     
     </div>
    <ul className="unordered-container">
-    {usersData.map(eachItem=>(<EachCard key={eachItem.id} eachUser={eachItem} getUpdatedData={this.getUpdatedData} getDeleteData={this.getDeleteData}/>))}
+   <ul className="students-table">
+            <li className="table-header">
+              {/* <p className="table-header-cell name-column">SNO</p>
+              <hr className="separator" /> */}
+              <p className="table-header-cell name-column">First Name</p>
+              <hr className="separator" />
+              <p className="table-header-cell name-column">Last Name</p>
+              <hr className="separator" />
+              <p className="table-header-cell name-column">Class Id</p>
+              <hr className="separator" />
+              <p className="table-header-cell name-column">Email</p>
+              <hr className="separator" />
+              <p className="table-header-cell name-column">Age</p>
+              <hr className="separator" />
+              <p className="table-header-cell">Actions</p>
+            </li>
+            {studentsData.map(eachItem=>(<EachCard key={eachItem.id} eachUser={eachItem} getUpdatedData={this.getUpdatedData} getDeleteData={this.getDeleteData}/>))}
+      </ul>
+        
+         
+       
+    
+    
    </ul>
     </div>
    
   )
- }
+
+}
 
 }
 
 export default Home
+
